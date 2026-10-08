@@ -2,6 +2,8 @@
 
 **Projeto pessoal de organizacao financeira familiar**, com receitas, despesas, orcamentos, metas e importacao revisavel de faturas. Esta versao e um MVP web responsivo com persistencia no navegador.
 
+**Responsavel pelo projeto:** [Gabriel Yuri Cavalcante de Castro](https://github.com/GabrielYuri1127).
+
 ![Painel do Family Finance com dados de demonstracao](docs/images/desktop.png)
 
 <details>
