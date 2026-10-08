@@ -21,7 +21,7 @@ Reunir o acompanhamento das despesas da familia em um unico painel e reduzir o t
 | Interface | Aplicativo web responsivo para computador e celular. |
 | Tecnologias | HTML5, CSS3, JavaScript, PDF.js e Tesseract.js. |
 | Persistencia | `localStorage` para estado e IndexedDB para arquivos. |
-| Execucao | Site estatico, sem etapa de build e sem backend obrigatorio. |
+| Execucao | Site estatico, sem etapa de build e sem backend nesta versao. |
 
 ## Funcionalidades Implementadas
 
@@ -74,6 +74,8 @@ Leia o [case tecnico](docs/case-study.md) para acompanhar as decisoes de impleme
 
 Os dados sao locais: nao existe sincronizacao entre aparelhos nem autenticacao real de membros. As opcoes de membro e visibilidade nao constituem controle de acesso. Limpar os dados do navegador pode remover transacoes e arquivos; esta base nao deve ser tratada como armazenamento financeiro definitivo.
 
+O rotulo "Administrador" identifica um membro na interface, mas nao corresponde a um painel administrativo ou a permissoes no servidor. O botao de convite copia um codigo fixo de demonstracao; ele nao cria contas nem conecta outras pessoas aos dados.
+
 A extracao de faturas e heuristica: formatos diferentes e OCR podem gerar resultados incompletos ou incorretos. O CSV e lido como texto pelo importador, sem suporte universal a todos os layouts. Revise os valores antes de salvar.
 
 O resumo mensal e a data de referencia estao fixados em outubro de 2026 para esta demonstracao. A selecao dinamica do periodo permanece como melhoria futura.
@@ -88,7 +90,9 @@ node --check dist/app.js
 
 Depois valide cadastro de transacao, criacao de meta, importacao do exemplo, recarga da pagina e navegacao em computador e celular. A verificacao de sintaxe nao substitui testes desses fluxos. Veja o [registro da verificacao local](docs/validacao.md).
 
-## Evolucao Planejada
+## Possibilidades De Evolucao
+
+Os itens abaixo nao estao implementados nesta versao:
 
 - Login e permissoes reais por membro da familia.
 - Banco de dados e sincronizacao entre dispositivos.

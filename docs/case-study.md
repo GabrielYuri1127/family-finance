@@ -31,6 +31,8 @@ Em `dist/app.js`, `processUploadedFile` coordena o fluxo, `extractFileText` sele
 
 `localStorage` guarda o estado estruturado da aplicacao, incluindo transacoes e metadados das importacoes. IndexedDB guarda os arquivos como blobs. Essa separacao evita colocar o conteudo binario dos documentos no estado JSON, mas os dois continuam limitados ao navegador e a origem utilizados.
 
+Os membros e o rotulo de administrador sao dados da interface, nao contas autenticadas. O convite usa um codigo fixo e nao implementa compartilhamento entre pessoas ou aparelhos.
+
 ## Assistente
 
 Family AI combina respostas locais e interpretacao de comandos por regras. `parseAiTransaction` transforma um pedido compativel em uma proposta de despesa; a interface exige confirmacao antes de salva-la. A versao atual nao utiliza um modelo generativo, e seu vocabulario e limitado.
