@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Finance</title>
+    <meta
+      name="description"
+      content="App familiar para organizar receitas, despesas, metas, orçamentos e análises financeiras com IA."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="14" fill="%23172a3a"/%3E%3Cpath d="M14 34 32 18l18 16v16a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V34Z" fill="%2327b8a5"/%3E%3Cpath d="M25 54V40h14v14" fill="%23f2b84b"/%3E%3Ccircle cx="24" cy="30" r="4" fill="%23fff"/%3E%3Ccircle cx="40" cy="30" r="4" fill="%23fff"/%3E%3C/svg%3E'
+    />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Financeiro familiar</p>
+          <h1>Family Finance</h1>
+        </div>
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Alternar tema">
+          <span aria-hidden="true">◐</span>
+        </button>
+      </header>
+
+      <main class="workspace">
+        <section class="content-panel" id="appContent" tabindex="-1"></section>
+
+        <aside class="side-panel" aria-label="Resumo complementar">
+          <section class="panel-block family-card">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Família ativa</p>
+                <h2>Família Castro</h2>
+              </div>
+              <button class="tiny-button" id="inviteButton" type="button">Convite</button>
+            </div>
+            <div class="member-row" id="memberRow"></div>
+          </section>
+
+          <section class="panel-block">
+            <div class="section-title">
+              <h2>Arquivos</h2>
+              <button class="tiny-button" data-view="imports" type="button">Abrir</button>
+            </div>
+            <div id="importList" class="stack"></div>
+          </section>
+
+          <section class="panel-block">
+            <div class="section-title">
+              <h2>Metas</h2>
+              <button class="tiny-button" data-open-modal="goal" type="button">Nova</button>
+            </div>
+            <div id="goalList" class="stack"></div>
+          </section>
+
+          <section class="panel-block">
+            <div class="section-title">
+              <h2>Contas</h2>
+              <span class="muted">3 carteiras</span>
+            </div>
+            <div id="accountList" class="stack"></div>
+          </section>
+        </aside>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <button class="nav-item is-active" data-view="home" type="button">
+          <span aria-hidden="true">⌂</span>
+          <span>Início</span>
+        </button>
+        <button class="nav-item" data-view="transactions" type="button">
+          <span aria-hidden="true">≡</span>
+          <span>Transações</span>
+        </button>
+        <button class="add-button" id="mainAddButton" type="button" aria-label="Adicionar lançamento">
+          <span aria-hidden="true">+</span>
+        </button>
+        <button class="nav-item" data-view="imports" type="button">
+          <span aria-hidden="true">⇪</span>
+          <span>Arquivos</span>
+        </button>
+        <button class="nav-item" data-view="assistant" type="button">
+          <span aria-hidden="true">✦</span>
+          <span>IA</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="modal-backdrop" id="entryModal" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="entryModalTitle">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Novo registro</p>
+            <h2 id="entryModalTitle">Adicionar movimentação</h2>
+          </div>
+          <button class="icon-button" data-close-modal type="button" aria-label="Fechar">×</button>
+        </div>
+        <form id="entryForm" class="form-grid">
+          <label>
+            Tipo
+            <select name="type">
+              <option value="expense">Despesa</option>
+              <option value="income">Receita</option>
+              <option value="transfer">Transferência</option>
+            </select>
+          </label>
+          <label>
+            Valor
+            <input name="amount" inputmode="decimal" placeholder="74,90" required />
+          </label>
+          <label class="wide">
+            Descrição
+            <input name="description" placeholder="Supermercado" required />
+          </label>
+          <label>
+            Categoria
+            <select name="category"></select>
+          </label>
+          <label>
+            Quem pagou
+            <select name="person"></select>
+          </label>
+          <label>
+            Conta
+            <select name="account"></select>
+          </label>
+          <label>
+            Data
+            <input name="date" type="date" required />
+          </label>
+          <label>
+            Visibilidade
+            <select name="visibility">
+              <option value="family">Familiar</option>
+              <option value="private">Privada</option>
+            </select>
+          </label>
+          <label class="checkbox-line wide">
+            <input name="recurring" type="checkbox" />
+            <span>Repetir todos os meses</span>
+          </label>
+          <div class="modal-actions wide">
+            <button class="secondary-button" data-close-modal type="button">Cancelar</button>
+            <button class="primary-button" type="submit">Salvar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="confirmModal" hidden>
+      <section class="modal compact" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Family AI</p>
+            <h2 id="confirmTitle">Confirmar lançamento</h2>
+          </div>
+          <button class="icon-button" data-close-confirm type="button" aria-label="Fechar">×</button>
+        </div>
+        <div id="confirmPreview" class="preview-box"></div>
+        <div class="modal-actions">
+          <button class="secondary-button" data-close-confirm type="button">Cancelar</button>
+          <button class="primary-button" id="confirmAiEntry" type="button">Confirmar</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="goalModal" hidden>
+      <section class="modal compact" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Meta familiar</p>
+            <h2 id="goalModalTitle">Nova meta</h2>
+          </div>
+          <button class="icon-button" data-close-goal type="button" aria-label="Fechar">×</button>
+        </div>
+        <form id="goalForm" class="form-grid">
+          <label class="wide">
+            Nome
+            <input name="name" placeholder="Viagem da família" required />
+          </label>
+          <label>
+            Valor alvo
+            <input name="target" inputmode="decimal" placeholder="10000" required />
+          </label>
+          <label>
+            Já guardado
+            <input name="saved" inputmode="decimal" placeholder="0" />
+          </label>
+          <label class="wide">
+            Prazo
+            <input name="due" placeholder="Dezembro de 2027" required />
+          </label>
+          <div class="modal-actions wide">
+            <button class="secondary-button" data-close-goal type="button">Cancelar</button>
+            <button class="primary-button" type="submit">Salvar meta</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
